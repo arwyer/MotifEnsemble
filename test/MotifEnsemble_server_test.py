@@ -68,7 +68,7 @@ class MotifEnsembleTest(unittest.TestCase):
         return self.__class__.ctx
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
-    def test_your_method(self):
+    def test_ensemble(self):
         # Prepare test objects in workspace if needed using
         # self.getWsClient().save_objects({'workspace': self.getWsName(),
         #                                  'objects': []})
@@ -78,5 +78,7 @@ class MotifEnsembleTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
-        ret = self.getImpl().run_MotifEnsemble(self.getContext(), {'workspace_name': self.getWsName(),
-                                                                    'parameter_1': 'Hello World!'})
+        params = {'threshold' : .6,'workspace_name' : '12566/5/3', 'motifset_refs' : ['21698/129/2','21698/134/1','21698/137/1']}
+        result = self.getImpl().MotifEnsemble(self.getContext(),params)
+        #ret = self.getImpl().run_MotifEnsemble(self.getContext(), {'workspace_name': self.getWsName(),
+        #                                                            'parameter_1': 'Hello World!'})

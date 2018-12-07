@@ -6,10 +6,21 @@ MAINTAINER KBase Developer
 # install line here, a git checkout to download code, or run any other
 # installation scripts.
 
-# RUN apt-get update
+RUN apt-get update
+RUN apt-get --yes --force-yes install build-essential
 
 
 # -----------------------------------------
+
+RUN mkdir -p /kb/deps
+COPY ./deps /kb/deps
+RUN echo Making dependency
+
+RUN \
+  sh /kb/deps/kb_psl/install-pyseqlogo.sh && \
+  #sh /kb/deps/kb_gibbs/install-gibbs.sh && \
+  #sh /kb/deps/kb_homer/install-homer.sh && \
+  sh /kb/deps/kb_meme/install-meme.sh
 
 COPY ./ /kb/module
 RUN mkdir -p /kb/module/work

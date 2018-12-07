@@ -342,6 +342,10 @@ class Application(object):
                              name='MotifEnsemble.run_MotifEnsemble',
                              types=[dict])
         self.method_authentication['MotifEnsemble.run_MotifEnsemble'] = 'required'  # noqa
+        self.rpc_service.add(impl_MotifEnsemble.MotifEnsemble,
+                             name='MotifEnsemble.MotifEnsemble',
+                             types=[dict])
+        self.method_authentication['MotifEnsemble.MotifEnsemble'] = 'required'  # noqa
         self.rpc_service.add(impl_MotifEnsemble.status,
                              name='MotifEnsemble.status',
                              types=[dict])
