@@ -10,7 +10,7 @@ RUN apt-get update
 RUN apt-get --yes --force-yes install build-essential
 RUN apt-get --yes --force-yes install libxml2-dev
 RUN apt-get --yes --force-yes install libxslt1-dev
-RUN apt-get --yes --force-yes install expat
+RUN apt-get --yes --force-yes install libexpat1-dev
 RUN cpan HTML::PullParser
 RUN cpan HTML::Template
 RUN cpan HTML::TreeBuilder
