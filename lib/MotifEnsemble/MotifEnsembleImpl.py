@@ -2,10 +2,11 @@
 #BEGIN_HEADER
 import os
 from installed_clients.KBaseReportClient import KBaseReport
-from MotifEnsemble.Utils.DownloadMotifSet import DownloadMotifSet
+from MotifEnsemble.Utils.DownloadMotifSets import DownloadMotifSet
 from MotifEnsemble.Utils.CompareMotifs import CompareMotifs
 from MotifEnsemble.Utils.CompareMotifs import merge
 from MotifEnsemble.Utils.makeReportFromMotifSet import buildReportFromMotifSet
+from installed_clients.DataFileUtilClient import DataFileUtil
 #END_HEADER
 
 
