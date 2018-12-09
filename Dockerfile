@@ -8,6 +8,15 @@ MAINTAINER KBase Developer
 
 RUN apt-get update
 RUN apt-get --yes --force-yes install build-essential
+RUN apt-get --yes --force-yes install libxml2-dev
+RUN apt-get --yes --force-yes install libxslt1-dev
+cpan HTML::PullParser
+cpan HTML::Template
+cpan HTML::TreeBuilder
+cpan JSON
+cpan XML::Simple
+cpan XML::Parser::Expat
+
 
 
 # -----------------------------------------

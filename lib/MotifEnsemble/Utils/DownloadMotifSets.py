@@ -9,6 +9,6 @@ def DownloadMotifSet(refList,callback):
     for ref in refList:
         get_objects_params = {'object_refs' : [ref]}
         #get_ss_params = {'object_refs' : [params['SS_ref']]}
-        MotifSet = dfu.get_objects(get_ss_params)['data'][0]['data']
+        MotifSet = dfu.get_objects(get_objects_params)['data'][0]['data']
         MotifSetDict[ref] = deepcopy(MotifSet)
     return MotifSetDict
