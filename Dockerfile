@@ -17,6 +17,9 @@ RUN cpan HTML::TreeBuilder
 RUN cpan JSON
 RUN cpan XML::Simple
 RUN cpan XML::Parser::Expat
+RUN curl -O https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh
+RUN bash Miniconda2-latest-Linux-x86_64.sh -b -p /kb/deployment/miniconda
+RUN cp /kb/deployment/miniconda/bin/* /kb/deployment/bin
 
 
 

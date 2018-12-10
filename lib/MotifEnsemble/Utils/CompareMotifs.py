@@ -37,10 +37,13 @@ def RunTomTom(path1,path2,outpath):
 
 #TODO: put this in motif utils
 #TODO: use background frequency..
+#TODO: alph
 
 def WriteMotifAsMEME(motif,path):
+    tempAlph = ['A','C','G','T']
     MEMEText = 'MEME version 4\n\n'
-    sortedAlph = sorted(MSO['Alphabet'])
+    #sortedAlph = sorted(MSO['Alphabet'])
+    sortedAlph = tempAlph
     alphStr = ''.join(sortedAlph)
     MEMEText += alphStr + '\n'
     MEMEText += '\n'
@@ -81,12 +84,12 @@ def WriteMotifAsMEME(motif,path):
 def CompareMotifs(motif1,motif2):
 
     pvalThresh = 1.0e-10
-    path1 = '/kb/module/tmp/motif1.txt'
-    path2 = '/kb/module/tmp/motif2.txt'
+    path1 = '/kb/module/work/tmp/motif1.txt'
+    path2 = '/kb/module/work/tmp/motif2.txt'
     WriteMotifAsMEME(motif1,path1)
     WriteMotifAsMEME(motif2,path2)
 
-    tomtompath = '/kb/module/tmp/tomtom_out'
+    tomtompath = '/kb/module/work/tmp/tomtom_out'
     RunTomTom(path1,path2,tomtompath)
 
     pval = ParseTomTom(tomtompath)
