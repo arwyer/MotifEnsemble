@@ -127,7 +127,7 @@ class MotifEnsemble:
                                 else:
                                     matchSets.append(set([(MSR1,j),(MSR2,l)]))
         numMotifSets = len(params['motifset_refs'])
-        threshold = params['threshold']
+        threshold = float(params['threshold'])
         KeepSets = []
         for i,mset in enumerate(matchSets):
             uniqueRefs = {}
