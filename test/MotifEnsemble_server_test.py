@@ -78,7 +78,7 @@ class MotifEnsembleTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
-        params = {'threshold' : .6,'workspace_name' : '12566/5/3', 'motifset_refs' : ['21698/129/2','21698/134/1','21698/137/1']}
+        params = {'threshold' : .6,'workspace_name' : 'pranjan77:narrative_1517498855061', 'motifset_refs' : ['21698/129/2','21698/134/1','21698/137/1']}
         result = self.getImpl().MotifEnsemble(self.getContext(),params)
         #ret = self.getImpl().run_MotifEnsemble(self.getContext(), {'workspace_name': self.getWsName(),
         #                                                            'parameter_1': 'Hello World!'})

@@ -23,6 +23,8 @@ def ParseTomTom(path):
     with open(path + '/tomtom.tsv','r') as tomtomfile:
         header = tomtomfile.readline()
         results = tomtomfile.readline()
+        if len(results.split('\t')) == 1:
+            return 1.0
         elems = results.split('\t')
         pval = float(elems[3])
 
@@ -71,9 +73,10 @@ def WriteMotifAsMEME(motif,path):
             try:
                 MEMEText += str(motif['PWM'][letter][i]) + ' '
             except IndexError:
-                print(len(motif['Iupac_sequence']))
-                print(len(motif['PWM'][letter]))
-                print(letter)
+                sum = 1
+                #print(len(motif['Iupac_sequence']))
+                #print(len(motif['PWM'][letter]))
+                #print(letter)
         MEMEText += '\n'
     MEMEText += '\n'
     with open(path,'w') as motifFile:

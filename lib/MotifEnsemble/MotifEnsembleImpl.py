@@ -7,6 +7,8 @@ from MotifEnsemble.Utils.CompareMotifs import CompareMotifs
 from MotifEnsemble.Utils.CompareMotifs import merge
 from MotifEnsemble.Utils.makeReportFromMotifSet import buildReportFromMotifSet
 from installed_clients.DataFileUtilClient import DataFileUtil
+from copy import deepcopy
+import uuid
 #END_HEADER
 
 
@@ -107,11 +109,11 @@ class MotifEnsemble:
                                 found2 = False
                                 index1 = -1
                                 index2 = -1
-                                for m,set in enumerate(matchSets):
-                                    if (MSR1,j) in set:
+                                for m,mset in enumerate(matchSets):
+                                    if (MSR1,j) in mset:
                                         found1 = True
                                         index1 = m
-                                    if(MSR2,l) in set:
+                                    if(MSR2,l) in mset:
                                         found2 = True
                                         index2 = m
                                 if not found1 and found2:
@@ -127,9 +129,9 @@ class MotifEnsemble:
         numMotifSets = len(params['motifset_refs'])
         threshold = params['threshold']
         KeepSets = []
-        for i,set in enumerate(matchSets):
+        for i,mset in enumerate(matchSets):
             uniqueRefs = {}
-            for tuple in set:
+            for tuple in mset:
                 if tuple[0] not in uniqueRefs:
                     uniqueRefs[tuple[0]] = tuple[0]
             if float(len(uniqueRefs.keys()))/numMotifSets >= threshold:
@@ -137,24 +139,24 @@ class MotifEnsemble:
 
 
         #handle duplicates...
-        for i,tuple1 in enumerate(matchSets):
-            for j,tuple2 in enumerate(matchSets):
-                if j > i:
-                    if tuple1[0] == tuple2[0]:
+        #for i,tuple1 in enumerate(matchSets):
+        #    for j,tuple2 in enumerate(matchSets):
+        #        if j > i:
+        #            if tuple1[0] == tuple2[0]:
                         #handle this....
                         #how...?
                         #merge locations if theyre different
                         #pick one motif by default(p-val)
                         #run motif compare to ensure theyre actually similar enough
-                        print('duplicate')
+        #                print('duplicate')
 
         #create new MSO
         ESO = {}
         for ref in MotifSetDict:
             ESO['Condition'] = MotifSetDict[ref]['Condition']
             ESO['SequenceSet_ref'] = MotifSetDict[ref]['SequenceSet_ref']
-            ESO['Alphabet'] = deepcopy(MotifSetDict[ref][Alphabet])
-            ESO['Background'] = deepcopy(MotifSetDict['Background'])
+            ESO['Alphabet'] = deepcopy(MotifSetDict[ref]['Alphabet'])
+            ESO['Background'] = deepcopy(MotifSetDict[ref]['Background'])
             break
         ESO['Motifs'] = []
         #Add motifs
@@ -166,9 +168,12 @@ class MotifEnsemble:
         #upload new MSO
         dfu = DataFileUtil(self.callback_url)
         save_objects_params = {}
-        save_objects_params['id'] = dfu.ws_name_to_id(params['ws_name'])
+        save_objects_params['id'] = dfu.ws_name_to_id(params['workspace_name'])
+        #save_objects_params['id'] = params['workspace_name']
         save_objects_params['objects'] = [{'type': 'KBaseGwasData.MotifSet' , 'data' : ESO , 'name' : 'EnsembleMotifSet'}]
 
+        info = dfu.save_objects(save_objects_params)[0]
+        obj_ref = "%s/%s/%s" % (info[6], info[0], info[4])
         #create report
         htmlDir = self.shared_folder + '/ensemble_html'
         os.mkdir(htmlDir)
@@ -327,7 +332,7 @@ function openReport(evt, reportName) {
         report = KBaseReport(self.callback_url, token=ctx['token'])
         #report_info = report.create({'report':reportObj, 'workspace_name':input_params['input_ws']})
         report_info = report.create_extended_report(reportObj)
-        output = { 'report_name': report_info['name'], 'report_ref': report_info['ref'] }
+        out = { 'report_name': report_info['name'], 'report_ref': report_info['ref'] }
 
         #END MotifEnsemble
 
