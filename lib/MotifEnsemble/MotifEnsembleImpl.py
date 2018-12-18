@@ -118,9 +118,9 @@ class MotifEnsemble:
                                         index2 = m
                                 if not found1 and found2:
                                     matchSets[index2].add((MSR1,j))
-                                if not found2 and found1:
+                                elif not found2 and found1:
                                     matchSets[index1].add((MSR2,l))
-                                if found1 and found2:
+                                elif found1 and found2:
                                     if index1 != index2:
                                         matchSets[index1].union(matchSets[index2])
                                         matchSets.pop(index2)
@@ -129,6 +129,8 @@ class MotifEnsemble:
         numMotifSets = len(params['motifset_refs'])
         threshold = float(params['threshold'])
         KeepSets = []
+        print('NUM MATCHSETS********')
+        print(len(matchSets))
         for i,mset in enumerate(matchSets):
             uniqueRefs = {}
             for tuple in mset:
@@ -136,6 +138,7 @@ class MotifEnsemble:
                     uniqueRefs[tuple[0]] = tuple[0]
             if float(len(uniqueRefs.keys()))/numMotifSets >= threshold:
                 KeepSets.append(i)
+        print(len(KeepSets))
 
 
         #handle duplicates...
