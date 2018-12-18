@@ -10,7 +10,9 @@ from copy import deepcopy
 
 #TODO: do this better
 def merge(motifs):
-    newMotif = deepcopy(motifs[0])
+    for motif in motifs:
+        newMotif = deepcopy(motifs[0])
+        break;
     for i,motif in enumerate(motifs):
         if i > 0:
             newMotif['Motif_Locations'].extend(motif['Motif_Locations'])
