@@ -11,7 +11,7 @@ from copy import deepcopy
 #TODO: do this better
 def merge(motifs):
     for motif in motifs:
-        newMotif = deepcopy(motifs[0])
+        newMotif = deepcopy(motif)
         break;
     for i,motif in enumerate(motifs):
         if i > 0:
