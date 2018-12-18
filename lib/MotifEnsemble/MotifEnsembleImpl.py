@@ -161,7 +161,7 @@ class MotifEnsemble:
         ESO['Motifs'] = []
         #Add motifs
         for keep in KeepSets:
-            motif = merge(matchSets[keep])
+            motif = merge(matchSets[keep],MotifSetDict)
             ESO['Motifs'].append(deepcopy(motif))
 
 

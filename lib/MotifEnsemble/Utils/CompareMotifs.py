@@ -9,13 +9,13 @@ import os
 from copy import deepcopy
 
 #TODO: do this better
-def merge(motifs):
+def merge(motifs,MSD):
     for motif in motifs:
-        newMotif = deepcopy(motif)
+        #newMotif = deepcopy(motif)
+        newMotif = deepcopy(MSD[motif[0]]['Motifs'][motif[1]])
         break;
-    for i,motif in enumerate(motifs):
-        if i > 0:
-            newMotif['Motif_Locations'].extend(motif['Motif_Locations'])
+    for motif in motifs:
+        newMotif['Motif_Locations'].extend(MSD[motif[0]]['Motifs'][motif[1]]['Motif_Locations'])
     return newMotif
 
 
