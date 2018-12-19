@@ -75,7 +75,9 @@ def WriteMotifAsMEME(motif,path):
             try:
                 MEMEText += str(motif['PWM'][letter][i]) + ' '
             except IndexError:
-                sum = 1
+                print('ERROR FOR MOTIF')
+                print(motif['Iupac_sequence'])
+                print(motif['PWM'])
                 #print(len(motif['Iupac_sequence']))
                 #print(len(motif['PWM'][letter]))
                 #print(letter)

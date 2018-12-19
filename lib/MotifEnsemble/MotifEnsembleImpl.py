@@ -9,6 +9,7 @@ from MotifEnsemble.Utils.makeReportFromMotifSet import buildReportFromMotifSet
 from installed_clients.DataFileUtilClient import DataFileUtil
 from copy import deepcopy
 import uuid
+from MotifEnsemble.Utils.MakeNewReport import MakeReport
 #END_HEADER
 
 
@@ -180,98 +181,8 @@ class MotifEnsemble:
         #create report
         htmlDir = self.shared_folder + '/ensemble_html'
         os.mkdir(htmlDir)
+        MakeReport(htmlDir,ESO)
 
-        #TODO:get actual sequences
-        fileStr = 'under construction\n'
-
-        promHtmlStr = '<html><body> '  + fileStr + ' </body></html>'
-        with open(htmlDir + '/promoters.html','w') as promHTML:
-            promHTML.write(promHtmlStr)
-
-        buildReportFromMotifSet(ESO,htmlDir,'ensemble')
-
-        parsed = ['ensemble.html','promoters.html']
-        indexHtmlStr = '<html>'
-        #use js to load the page content
-        for p in parsed:
-            indexHtmlStr += '<head><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> <script> $(function(){$("#' + p.replace('.html','_content')  + '").load("' + p + '"); });</script> '
-        indexHtmlStr += """<style>
-            body {font-family: Arial;}
-
-            /* Style the tab */
-            .tab {
-            overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-    background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-    background-color: #ccc;
-}
-
-/* Style the tab content */
-.tabcontent {
-    display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
-}
-</style></head> """
-        indexHtmlStr += '<body>'
-        #adding tabs
-        indexHtmlStr += '<div class="tab">\n'
-        for p in parsed:
-            indexHtmlStr += '<button class="tablinks" onclick="openReport(event, \'' +p.replace('.html','_content') +'\')">' + p.replace('.html','') + '</button>'
-        indexHtmlStr += '</div>'
-        for p in parsed:
-            indexHtmlStr += '<div id="' + p.replace('.html','_content') +'" class="tabcontent"></div>'
-        indexHtmlStr += """<script>
-function openReport(evt, reportName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(reportName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-</script>"""
-
-        #for p in parsed:
-        #    indexHtmlStr += '<a href="' + p + '">' + p.replace('.html','') +' Output</a>\n'
-        #indexHtmlStr += '</body></html>'
-        with open(htmlDir+  '/index.html','w') as html_handle:
-            html_handle.write(str(indexHtmlStr))
-
-        #plt.rcParams['figure.dpi'] = 300
-
-
-        #htmlFiles = ['index.html','gibbs.html','homer.html']
-        #shockParamsList = []
-        #for f in htmlFiles:
-        #    shockParamsList.append({'file_path': htmlDir + f ,'make_handle': 0, 'pack': 'zip'})
 
         try:
             html_upload_ret = dfu.file_to_shock({'file_path': htmlDir ,'make_handle': 0, 'pack': 'zip'})
