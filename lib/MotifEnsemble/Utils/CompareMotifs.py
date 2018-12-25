@@ -11,6 +11,7 @@ from Bio import motifs
 from Bio import SeqIO
 from Bio.Alphabet import IUPAC
 from io import StringIO
+import math
 #try:
 #    from cStringIO import StringIO
 #except:
@@ -99,8 +100,16 @@ def WriteMotifAsMEME(motif,path):
 def PWMtoPSSM(BPmotif,motif):
     #background = motif['Background']
     background = {'A':0.25,'C':0.25,'G':0.25,'T':0.25}
+
     pssm = BPmotif.pwm.log_odds(background)
-    distribution = pssm.distribution(background=background, precision=10**4)
+    alph = ['A','C','G','T']
+    replace = 0.0
+    for l in alph:
+        for i,val in enumerate(pssm[l]):
+            if math.isnan(val)
+                pssm[l][i] = replace
+
+    #distribution = pssm.distribution(background=background, precision=10**4)
     return pssm
 
 def MotifToBP(motif,name):
