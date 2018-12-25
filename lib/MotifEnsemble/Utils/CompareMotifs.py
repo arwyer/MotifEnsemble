@@ -106,7 +106,7 @@ def PWMtoPSSM(BPmotif,motif):
     replace = 0.0
     for l in alph:
         for i,val in enumerate(pssm[l]):
-            if math.isnan(val)
+            if math.isnan(val):
                 pssm[l][i] = replace
 
     #distribution = pssm.distribution(background=background, precision=10**4)
