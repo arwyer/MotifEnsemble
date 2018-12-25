@@ -116,8 +116,13 @@ def MotifToBP(motif,name):
 
 
 def CompareMotifsBP(motif1,motif2,threshold):
+
+
     BPmotif1 = MotifToBP(motif1,'motif1')
     BPmotif2 = MotifToBP(motif2,'motif2')
+
+    if str(BPmotif1.degenerate_consensus) == str(BPmotif2.degenerate_consensus):
+        return True
 
     pssm1 = PWMtoPSSM(BPmotif1,motif1)
     pssm2 = PWMtoPSSM(BPmotif2,motif2)
