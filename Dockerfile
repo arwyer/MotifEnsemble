@@ -7,21 +7,21 @@ MAINTAINER KBase Developer
 # installation scripts.
 RUN echo Making deps
 RUN apt-get update
-RUN apt-get --yes --force-yes install build-essential
-RUN apt-get --yes --force-yes install libxml2-dev
-RUN apt-get --yes --force-yes install libxslt1-dev
-RUN apt-get --yes --force-yes install libexpat1-dev
-RUN apt-get --yes --force-yes install zlib1g-dev
-RUN cpan HTML::Template
-RUN cpan HTML::TreeBuilder
-RUN cpan JSON
-RUN cpan XML::Simple
-RUN cpan XML::Parser::Expat
-RUN cpan File::Which
-RUN curl -O https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh
-RUN bash Miniconda2-latest-Linux-x86_64.sh -b -p /kb/deployment/miniconda
+#RUN apt-get --yes --force-yes install build-essential
+#RUN apt-get --yes --force-yes install libxml2-dev
+#RUN apt-get --yes --force-yes install libxslt1-dev
+#RUN apt-get --yes --force-yes install libexpat1-dev
+#RUN apt-get --yes --force-yes install zlib1g-dev
+#RUN cpan HTML::Template
+#RUN cpan HTML::TreeBuilder
+#RUN cpan JSON
+#RUN cpan XML::Simple
+#RUN cpan XML::Parser::Expat
+#RUN cpan File::Which
+#RUN curl -O https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh
+#RUN bash Miniconda2-latest-Linux-x86_64.sh -b -p /kb/deployment/miniconda
 #RUN export PYTHONPATH=/kb/deployment/miniconda
-RUN cp /kb/deployment/miniconda/bin/* /kb/deployment/bin
+#RUN cp /kb/deployment/miniconda/bin/* /kb/deployment/bin
 
 
 
@@ -31,11 +31,11 @@ RUN mkdir -p /kb/deps
 COPY ./deps /kb/deps
 RUN echo Making dependency
 
-RUN \
-  sh /kb/deps/kb_psl/install-pyseqlogo.sh && \
+#RUN \
+  #sh /kb/deps/kb_psl/install-pyseqlogo.sh && \
   #sh /kb/deps/kb_gibbs/install-gibbs.sh && \
   #sh /kb/deps/kb_homer/install-homer.sh && \
-  sh /kb/deps/kb_meme/install-meme.sh
+  #sh /kb/deps/kb_meme/install-meme.sh
 
 COPY ./ /kb/module
 RUN mkdir -p /kb/module/work
