@@ -100,6 +100,7 @@ def PWMtoPSSM(BPmotif,motif):
     #background = motif['Background']
     background = {'A':0.25,'C':0.25,'G':0.25,'T':0.25}
     pssm = BPmotif.pwm.log_odds(background)
+    distribution = pssm.distribution(background=background, precision=10**4)
     return pssm
 
 def MotifToBP(motif,name):
