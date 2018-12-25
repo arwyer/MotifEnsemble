@@ -4,6 +4,7 @@ import os
 from installed_clients.KBaseReportClient import KBaseReport
 from MotifEnsemble.Utils.DownloadMotifSets import DownloadMotifSet
 from MotifEnsemble.Utils.CompareMotifs import CompareMotifs
+from MotifEnsemble.Utils.CompareMotifs import CompareMotifsBP
 from MotifEnsemble.Utils.CompareMotifs import merge
 from MotifEnsemble.Utils.makeReportFromMotifSet import buildReportFromMotifSet
 from installed_clients.DataFileUtilClient import DataFileUtil
@@ -105,7 +106,7 @@ class MotifEnsemble:
                 for k,MSR2 in enumerate(MotifSetDict.keys()):
                     if j > i:
                         for l,motif2 in enumerate(MotifSetDict[MSR2]['Motifs']):
-                            if CompareMotifs(motif1,motif2):
+                            if CompareMotifsBP(motif1,motif2):
                                 found1 = False
                                 found2 = False
                                 index1 = -1

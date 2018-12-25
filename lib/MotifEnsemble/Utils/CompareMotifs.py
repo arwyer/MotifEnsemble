@@ -7,6 +7,13 @@
 #we can optimize this later
 import os
 from copy import deepcopy
+from Bio import motifs
+from Bio import SeqIO
+from Bio.Alphabet import IUPAC
+try:
+    from cStringIO import StringIO
+except:
+    from StringIO import StringIO
 
 #TODO: do this better
 def merge(motifs,MSD):
@@ -87,6 +94,40 @@ def WriteMotifAsMEME(motif,path):
         motifFile.write(MEMEText)
 
     return
+
+def PWMtoPSSM(BPmotif,motif):
+    #background = motif['Background']
+    background = {'A':0.25,'C':0.25,'G':0.25,'T':0.25}
+    pssm = BPmotif.pwm.log_odds(background)
+    return pssm
+
+def MotifToBP(motif,name):
+    motifStr = '>' + name + '\n'
+    motifStr += 'A ' + str(motif['PWM']['A']).replace(',','') + '\n'
+    motifStr += 'C ' + str(motif['PWM']['C']).replace(',','') + '\n'
+    motifStr += 'G ' + str(motif['PWM']['G']).replace(',','') + '\n'
+    motifStr += 'T ' + str(motif['PWM']['T']).replace(',','') + '\n'
+
+    handle = StringIO(motifStr)
+    motif = motifs.read(handle, 'jaspar')
+    return motif
+
+
+def CompareMotifsBP(motif1,motif2):
+    BPmotif1 = MotifToBP(motif1,'motif1')
+    BPmotif2 = MotifToBP(motif2,'motif2')
+
+    pssm1 = PWMtoPSSM(BPmotif1,motif1)
+    pssm2 = PWMtoPSSM(BPmotif2,motif2)
+
+    distance, offset = pssm1.dist_pearson(pssm2)
+
+    thresh = .3
+    if distance <= thresh:
+        return True
+    return False
+
+    #distance, offset = info1['pssm'].dist_pearson(info2['pssm'])
 
 def CompareMotifs(motif1,motif2):
 
