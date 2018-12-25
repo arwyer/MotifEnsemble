@@ -10,10 +10,11 @@ from copy import deepcopy
 from Bio import motifs
 from Bio import SeqIO
 from Bio.Alphabet import IUPAC
-try:
-    from cStringIO import StringIO
-except:
-    from StringIO import StringIO
+from io import StringIO
+#try:
+#    from cStringIO import StringIO
+#except:
+#    from StringIO import StringIO
 
 #TODO: do this better
 def merge(motifs,MSD):
@@ -113,7 +114,7 @@ def MotifToBP(motif,name):
     return motif
 
 
-def CompareMotifsBP(motif1,motif2):
+def CompareMotifsBP(motif1,motif2,threshold):
     BPmotif1 = MotifToBP(motif1,'motif1')
     BPmotif2 = MotifToBP(motif2,'motif2')
 
@@ -123,6 +124,7 @@ def CompareMotifsBP(motif1,motif2):
     distance, offset = pssm1.dist_pearson(pssm2)
 
     thresh = .3
+    thresh = 1 - threshold
     if distance <= thresh:
         return True
     return False
