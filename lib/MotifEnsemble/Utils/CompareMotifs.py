@@ -142,7 +142,7 @@ def CompareMotifsBP(motif1,motif2,threshold):
     pssm1 = PWMtoPSSM(BPmotif1,motif1)
     pssm2 = PWMtoPSSM(BPmotif2,motif2)
 
-    distance = pssm1.dist_pearson(pssm2)
+    distance,offset = pssm1.dist_pearson(pssm2)
 
     thresh = .3
     thresh = 1 - threshold
