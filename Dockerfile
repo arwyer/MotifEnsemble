@@ -7,6 +7,7 @@ MAINTAINER KBase Developer
 # installation scripts.
 RUN echo Making deps
 RUN apt-get update
+RUN pip install biopython --upgrade
 #RUN apt-get --yes --force-yes install build-essential
 #RUN apt-get --yes --force-yes install libxml2-dev
 #RUN apt-get --yes --force-yes install libxslt1-dev
