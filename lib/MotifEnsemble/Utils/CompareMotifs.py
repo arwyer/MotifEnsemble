@@ -103,7 +103,7 @@ def PWMtoPSSM(BPmotif,motif):
 
     pssm = BPmotif.pwm.log_odds(background)
     alph = ['A','C','G','T']
-    replace = 0.0
+    replace = -5.0
     for l in alph:
         for i,val in enumerate(pssm[l]):
             if math.isnan(val):
