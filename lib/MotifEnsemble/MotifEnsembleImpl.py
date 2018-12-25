@@ -6,7 +6,7 @@ from MotifEnsemble.Utils.DownloadMotifSets import DownloadMotifSet
 from MotifEnsemble.Utils.CompareMotifs import CompareMotifs
 from MotifEnsemble.Utils.CompareMotifs import CompareMotifsBP
 from MotifEnsemble.Utils.CompareMotifs import merge
-from MotifEnsemble.Utils.makeReportFromMotifSet import buildReportFromMotifSet
+#from MotifEnsemble.Utils.makeReportFromMotifSet import buildReportFromMotifSet
 from installed_clients.DataFileUtilClient import DataFileUtil
 from copy import deepcopy
 import uuid
