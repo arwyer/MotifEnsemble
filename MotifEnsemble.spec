@@ -47,6 +47,7 @@ module MotifEnsemble {
       list<string> motifset_refs;
       string workspace_name;
       float threshold;
+      float proportion;
     } EnsembleParams;
 
     typedef structure{

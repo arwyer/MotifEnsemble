@@ -130,7 +130,7 @@ class MotifEnsemble:
                                 else:
                                     matchSets.append(set([(MSR1,j),(MSR2,l)]))
         numMotifSets = len(params['motifset_refs'])
-        threshold = float(params['threshold'])
+        threshold = float(params['proportion'])
         KeepSets = []
         print('NUM MATCHSETS********')
         print(len(matchSets))

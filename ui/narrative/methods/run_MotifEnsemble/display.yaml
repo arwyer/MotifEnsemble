@@ -35,7 +35,14 @@ parameters :
         ui-name : |
             Threshold
         short-hint : |
-            Occurence Threshold
+            PCC Threshold
+        long-hint  : |
+            PCC threshold for motif similarity
+    proportion :
+        ui-name : |
+            Proportion
+        short-hint : |
+            Proportion of MotifSets
         long-hint  : |
             Proportion of motifsets a motif must occur in
 

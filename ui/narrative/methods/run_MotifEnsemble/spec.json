@@ -33,6 +33,19 @@
                 "min_float" : 0.0,
                 "max_float" : 1.0
             }
+        },
+        {
+            "id": "proportion",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "1.0" ],
+            "field_type": "text",
+            "text_options": {
+                "validate_as": [ "float"],
+                "min_float" : 0.0,
+                "max_float" : 1.0
+            }
         }
 
     ],
@@ -51,6 +64,9 @@
                 },{
                     "input_parameter": "threshold",
                     "target_property": "threshold"
+                },{
+                    "input_parameter": "proportion",
+                    "target_property": "proportion"
                 }
             ],
             "output_mapping": [

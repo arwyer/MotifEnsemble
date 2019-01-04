@@ -146,6 +146,8 @@ def CompareMotifsBP(motif1,motif2,threshold):
 
     thresh = .3
     thresh = 1 - threshold
+    print('***DISTANCE***')
+    print(distance)
     if distance <= thresh:
         return True
     return False
