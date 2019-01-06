@@ -23,8 +23,8 @@ def merge(motifs,MSD):
         #newMotif = deepcopy(motif)
         newMotif = deepcopy(MSD[motif[0]]['Motifs'][motif[1]])
         break;
-    for motif in motifs:
-        newMotif['Motif_Locations'].extend(MSD[motif[0]]['Motifs'][motif[1]]['Motif_Locations'])
+    #for motif in motifs:
+    #    newMotif['Motif_Locations'].extend(MSD[motif[0]]['Motifs'][motif[1]]['Motif_Locations'])
     return newMotif
 
 
@@ -137,6 +137,9 @@ def CompareMotifsBP(motif1,motif2,threshold):
     BPmotif2 = MotifToBP(motif2,'motif2')
 
     if str(BPmotif1.degenerate_consensus) == str(BPmotif2.degenerate_consensus):
+        print('FOUND Sequence MATCH FOR')
+        print(BPmotif1.degenerate_consensus)
+        print(BPmotif2.degenerate_consensus)
         return True
 
     pssm1 = PWMtoPSSM(BPmotif1,motif1)
@@ -146,9 +149,12 @@ def CompareMotifsBP(motif1,motif2,threshold):
 
     thresh = .3
     thresh = 1 - threshold
-    print('***DISTANCE***')
-    print(distance)
+    #print('***DISTANCE***')
+    #print(distance)
     if distance <= thresh:
+        print('FOUND MATCH FOR')
+        print(BPmotif1.degenerate_consensus)
+        print(BPmotif2.degenerate_consensus)
         return True
     return False
 
