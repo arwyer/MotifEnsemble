@@ -152,7 +152,10 @@ def CompareMotifsBP(motif1,motif2,threshold):
     #print('***DISTANCE***')
     #print(distance)
     if distance <= thresh:
+        if abs(offset) > len(BPmotif1.degenerate_consensus)/2:
+            return False
         print('FOUND MATCH FOR')
+        print('with distance ' + str(distance) + ' and offset ' + str(offset))
         print(BPmotif1.degenerate_consensus)
         print(BPmotif2.degenerate_consensus)
         return True
