@@ -105,7 +105,7 @@ class MotifEnsemble:
         for i,MSR1 in enumerate(MotifSetDict.keys()):
             for j,motif1 in enumerate(MotifSetDict[MSR1]['Motifs']):
                 for k,MSR2 in enumerate(MotifSetDict.keys()):
-                    if j > i:
+                    if k > i:
                         for l,motif2 in enumerate(MotifSetDict[MSR2]['Motifs']):
                             if CompareMotifsBP(motif1,motif2,threshold):
                                 found1 = False
