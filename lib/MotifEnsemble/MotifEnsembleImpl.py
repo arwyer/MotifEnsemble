@@ -176,7 +176,7 @@ class MotifEnsemble:
         save_objects_params = {}
         save_objects_params['id'] = dfu.ws_name_to_id(params['workspace_name'])
         #save_objects_params['id'] = params['workspace_name']
-        save_objects_params['objects'] = [{'type': 'KBaseGwasData.MotifSet' , 'data' : ESO , 'name' : 'EnsembleMotifSet'}]
+        save_objects_params['objects'] = [{'type': 'KBaseGeneRegulation.MotifSet' , 'data' : ESO , 'name' : 'EnsembleMotifSet'}]
 
         info = dfu.save_objects(save_objects_params)[0]
         obj_ref = "%s/%s/%s" % (info[6], info[0], info[4])
