@@ -2,7 +2,7 @@ module-name:
     MotifEnsemble
 
 module-description:
-    Ensemble for motif discovery
+    A KBase module
 
 service-language:
     python
@@ -11,4 +11,5 @@ module-version:
     0.0.1
 
 owners:
-    [arwyer, pranjan77, rmr, man4ish_gupta]
+    [man4ish]
+
