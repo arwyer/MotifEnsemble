@@ -2,12 +2,15 @@
 #BEGIN_HEADER
 import os
 from installed_clients.KBaseReportClient import KBaseReport
-from MotifEnsemble.Utils.DownloadMotifSets import DownloadMotifSets
-from MotifEnsemble.Utils.FastaUtils import FastaUtils
+from MotifEnsemble.Utils.DownloadMotifSets import DownloadMotifSet
+from MotifEnsemble.Utils.CompareMotifs import CompareMotifs
+from MotifEnsemble.Utils.CompareMotifs import CompareMotifsBP
+from MotifEnsemble.Utils.CompareMotifs import merge
+#from MotifEnsemble.Utils.makeReportFromMotifSet import buildReportFromMotifSet
 from installed_clients.DataFileUtilClient import DataFileUtil
 from copy import deepcopy
 import uuid
-from MotifEnsemble.Utils.MakeNewReport import MakeNewReport
+from MotifEnsemble.Utils.MakeNewReport import MakeReport
 #END_HEADER
 
 
@@ -27,8 +30,8 @@ class MotifEnsemble:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = "https://github.com/kbasecollaborations/MotifEnsemble.git"
-    GIT_COMMIT_HASH = "d414d0eee0a62d4c12e6368ce14571900c291b53"
+    GIT_URL = "https://github.com/arwyer/MotifEnsemble.git"
+    GIT_COMMIT_HASH = "ff0273879e1eb809124b5e7b61ffcf6ea9b70d71"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -85,27 +88,26 @@ class MotifEnsemble:
            sets for motif2: if found add motif1 else add a new set with
            motif1 + motif2) -> structure: parameter "motifset_refs" of list
            of String, parameter "workspace_name" of String, parameter
-           "threshold" of Double, parameter "proportion" of Double
+           "threshold" of Double
         :returns: instance of type "Ensemble_out" -> structure: parameter
-           "report_name" of String, parameter "report_ref" of String
+           "motifset_ref" of String
         """
         # ctx is the context object
         # return variables are: out
         #BEGIN MotifEnsemble
         #TODO: ERROR CHECK (MULTIPLE MOTIFSETS, NONEMPTY, SSREF are the same, etc.)
 
-        dms=DownloadMotifSets()
-        MotifSetDict = dms.DownloadMotifSet(params['motifset_refs'],self.callback_url)
+        MotifSetDict = DownloadMotifSet(params['motifset_refs'],self.callback_url)
 
         matchSets = []
         threshold = float(params['threshold'])
-        fmu=FastaUtils()
+
         for i,MSR1 in enumerate(MotifSetDict.keys()):
             for j,motif1 in enumerate(MotifSetDict[MSR1]['Motifs']):
                 for k,MSR2 in enumerate(MotifSetDict.keys()):
                     if k > i:
                         for l,motif2 in enumerate(MotifSetDict[MSR2]['Motifs']):
-                            if fmu.CompareMotifsBP(motif1,motif2,threshold):
+                            if CompareMotifsBP(motif1,motif2,threshold):
                                 found1 = False
                                 found2 = False
                                 index1 = -1
@@ -141,6 +143,20 @@ class MotifEnsemble:
                 KeepSets.append(i)
         print(len(KeepSets))
 
+
+        #handle duplicates...
+        #for i,tuple1 in enumerate(matchSets):
+        #    for j,tuple2 in enumerate(matchSets):
+        #        if j > i:
+        #            if tuple1[0] == tuple2[0]:
+                        #handle this....
+                        #how...?
+                        #merge locations if theyre different
+                        #pick one motif by default(p-val)
+                        #run motif compare to ensure theyre actually similar enough
+        #                print('duplicate')
+
+        #create new MSO
         ESO = {}
         for ref in MotifSetDict:
             ESO['Condition'] = MotifSetDict[ref]['Condition']
@@ -151,7 +167,7 @@ class MotifEnsemble:
         ESO['Motifs'] = []
         #Add motifs
         for keep in KeepSets:
-            motif = fmu.merge(matchSets[keep],MotifSetDict)
+            motif = merge(matchSets[keep],MotifSetDict)
             ESO['Motifs'].append(deepcopy(motif))
 
 
@@ -159,14 +175,15 @@ class MotifEnsemble:
         dfu = DataFileUtil(self.callback_url)
         save_objects_params = {}
         save_objects_params['id'] = dfu.ws_name_to_id(params['workspace_name'])
+        #save_objects_params['id'] = params['workspace_name']
         save_objects_params['objects'] = [{'type': 'KBaseGeneRegulation.MotifSet' , 'data' : ESO , 'name' : 'EnsembleMotifSet'}]
 
         info = dfu.save_objects(save_objects_params)[0]
         obj_ref = "%s/%s/%s" % (info[6], info[0], info[4])
+        #create report
         htmlDir = self.shared_folder + '/ensemble_html'
         os.mkdir(htmlDir)
-        mr=MakeNewReport()
-        mr.MakeReport(htmlDir,ESO)
+        MakeReport(htmlDir,ESO)
 
 
         try:
@@ -174,6 +191,33 @@ class MotifEnsemble:
         except:
             raise ValueError ('error uploading HTML file to shock')
 
+
+
+        #Create motif set object from MotifList
+        #TODO set parameters correctly
+        #add narrative support to set
+        #MSO = {}
+        #MSO['Condition'] = 'Temp'
+        #MSO['FeatureSet_ref'] = '123'
+        #MSO['Motifs'] = []
+        #MSO['Alphabet'] = ['A','C','G','T']
+        #MSO['Background'] = {}
+        #for letter in MSO['Alphabet']:
+        #    MSO['Background'][letter] = 0.0
+
+        #MSU.parseMotifList(fullMotifList,MSO)
+        #objname = 'MotifSet' + str(int((datetime.utcnow() - datetime.utcfromtimestamp(0)).total_seconds()*1000))
+
+        #Pass motif set into this
+        #save_objects_params = {}
+        #save_objects_params['id'] = self.ws_info[0]
+        #save_objects_params['id'] = long(params['workspace_name'].split('_')[1])
+        #save_objects_params['id'] = dfu.ws_name_to_id(params['workspace_name'])
+        #save_objects_params['objects'] = [{'type': 'KBaseGwasData.MotifSet' , 'data' : MSO , 'name' : objname}]
+
+        #info = dfu.save_objects(save_objects_params)[0]
+        #motif_set_ref = "%s/%s/%s" % (info[6], info[0], info[4])
+        #object_upload_ret = dfu.file_to_shock()
 
         reportName = 'MEMEMotifFinder_report_'+str(uuid.uuid4())
 
@@ -190,9 +234,11 @@ class MotifEnsemble:
 
 
         # attach to report obj
+        #reportObj['direct_html'] = None
         reportObj['direct_html'] = ''
         reportObj['direct_html_link_index'] = 0
         reportObj['html_links'] = [{'shock_id': html_upload_ret['shock_id'],
+                                    #'name': 'promoter_download.zip',
                                     'name': 'index.html',
                                     'label': 'Save promoter_download.zip'
                                     }
@@ -200,6 +246,7 @@ class MotifEnsemble:
 
 
         report = KBaseReport(self.callback_url, token=ctx['token'])
+        #report_info = report.create({'report':reportObj, 'workspace_name':input_params['input_ws']})
         report_info = report.create_extended_report(reportObj)
         out = { 'report_name': report_info['name'], 'report_ref': report_info['ref'] }
 
