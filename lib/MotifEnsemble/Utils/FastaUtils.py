@@ -112,7 +112,8 @@ class FastaUtils:
 
       pssm1 = self.PWMtoPSSM(BPmotif1,motif1)
       pssm2 = self.PWMtoPSSM(BPmotif2,motif2)
-
+      print(pssm1)
+      print(pssm2)
       distance,offset = pssm1.dist_pearson(pssm2)
 
       thresh = .3

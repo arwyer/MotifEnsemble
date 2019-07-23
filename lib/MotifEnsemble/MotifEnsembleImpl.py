@@ -105,6 +105,9 @@ class MotifEnsemble:
                 for k,MSR2 in enumerate(MotifSetDict.keys()):
                     if k > i:
                         for l,motif2 in enumerate(MotifSetDict[MSR2]['Motifs']):
+                            print(motif1)
+                            print(motif2)
+                            print(threshold)
                             if fmu.CompareMotifsBP(motif1,motif2,threshold):
                                 found1 = False
                                 found2 = False
